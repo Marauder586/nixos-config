@@ -1,0 +1,25 @@
+# System monitoring, debugging, and hardware introspection tools.
+# Controlled by: features.monitoring
+{ pkgs, lib, features, ... }:
+{
+  config = lib.mkIf features.monitoring {
+    home.packages = with pkgs; [
+      # Process / resource monitors
+      htop
+      iotop
+      iftop
+
+      # System call / library tracing
+      strace
+      ltrace
+      lsof
+
+      # Hardware / kernel stats
+      sysstat
+      lm_sensors  # sensors command
+      ethtool
+      pciutils    # lspci
+      usbutils    # lsusb
+    ];
+  };
+}
