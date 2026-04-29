@@ -6,6 +6,10 @@
 }:
 
 {
+  home.sessionVariables = {
+    EDITOR = "hx";
+  };
+
   # LSP packages used in languages.toml
   home.packages = with pkgs; [
     alejandra
