@@ -1,18 +1,13 @@
-<<<<<<< Updated upstream
 # Home-manager entry point.
 # All configuration lives in modules/home/.
 # Toggle features in features.nix.
-{ inputs, features, ... }:
-=======
 {
-  config,
   pkgs,
   pkgs-unstable,
   inputs,
   ...
 }:
 
->>>>>>> Stashed changes
 {
   imports = [
     ./modules/home/core.nix
