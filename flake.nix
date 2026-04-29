@@ -20,7 +20,6 @@
     };
   };
 
-<<<<<<< Updated upstream
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
   let
     system   = "x86_64-linux";
@@ -47,58 +46,6 @@
           home-manager.users.marauder   = import ./home.nix;
         }
       ];
-=======
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      ...
-    }@inputs:
-    {
-      # Please replace my-nixos with your hostname
-      nixosConfigurations.mochi = nixpkgs.lib.nixosSystem {
-        specialArgs =
-          let
-            system = "x86_64-linux";
-          in
-          {
-            inherit inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-        modules = [
-          # Import the previous configuration.nix we used,
-          # so the old configuration file still takes effect
-          ./configuration.nix
-          inputs.stylix.nixosModules.stylix
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs =
-              let
-                system = "x86_64-linux";
-              in
-              {
-                inherit inputs;
-                pkgs-unstable = import nixpkgs-unstable {
-                  inherit system;
-                  config.allowUnfree = true;
-                };
-              };
-
-            # extraSpecialArgs = { inherit nix-colors; };
-            home-manager.users.marauder = import ./home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
-          }
-        ];
-      };
->>>>>>> Stashed changes
     };
+  };
 }
