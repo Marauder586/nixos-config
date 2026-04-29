@@ -1,7 +1,18 @@
+<<<<<<< Updated upstream
 # Home-manager entry point.
 # All configuration lives in modules/home/.
 # Toggle features in features.nix.
 { inputs, features, ... }:
+=======
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  inputs,
+  ...
+}:
+
+>>>>>>> Stashed changes
 {
   imports = [
     ./modules/home/core.nix
@@ -67,7 +78,7 @@
   };
 
   # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # here is some command line tools I use frequently
     # feel free to add your own or remove some of them
 
@@ -136,7 +147,6 @@
     tree
     which
     yq-go
-    zellij
     zstd
 
     # VPN
@@ -151,8 +161,23 @@
     blender
     freecad
     lycheeslicer
-    
-  ];
+
+
+
+    # Laser Cutting
+    inkscape
+    lightburn
+
+    # Arduino Tests
+    cmatrix
+    nmap
+    figlet
+    btop
+  ]) ++
+  (with pkgs-unstable; [
+    zellij
+  ]);
+
 
   programs.git = {
     enable = true;
@@ -272,8 +297,11 @@
           force = true;
           packages = with inputs.firefox-addons.packages.${pkgs.system}; [
             bitwarden
+            decentraleyes
+            istilldontcareaboutcookies
             privacy-badger
             ublock-origin
+            videospeed
           ];
         };
       };
