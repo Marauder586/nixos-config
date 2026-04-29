@@ -2,16 +2,16 @@
   description = "Modular NixOS / home-manager configuration";
 
   inputs = {
-    nixpkgs.url          = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    helix.url            = "github:helix-editor/helix/master";
+    helix.url = "github:helix-editor/helix/master";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url     = "github:danth/stylix/release-25.11";
+    stylix.url = "github:danth/stylix/release-25.11";
     nix-colors.url = "github:misterio77/nix-colors";
 
     firefox-addons = {
