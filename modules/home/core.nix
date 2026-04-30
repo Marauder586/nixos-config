@@ -7,6 +7,9 @@
     EDITOR = "hx";
   };
 
+  # ── Fonts ─────────────────────────────────────────────────
+  home.packages = [ pkgs.nerd-fonts.iosevka ];
+
   # ── Essential CLI tools ───────────────────────────────────
   home.packages = with pkgs; [
     fastfetch
