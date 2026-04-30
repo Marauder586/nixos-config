@@ -21,15 +21,11 @@
     LC_TIME           = "en_US.UTF-8";
   };
 
-  # ── Networking ────────────────────────────────────────────
-  networking.networkmanager.enable = true;
-
   # ── Shell (required so user shell is available system-wide) ─
   programs.zsh.enable = true;
 
   # ── Minimal system packages ───────────────────────────────
   environment.systemPackages = with pkgs; [
-    git
     vim
     wget
   ];

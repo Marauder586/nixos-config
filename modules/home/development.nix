@@ -20,6 +20,7 @@
       socat      # netcat replacement
       nmap
       ipcalc
+      git
     ];
   };
 }

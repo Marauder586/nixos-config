@@ -22,5 +22,8 @@
 
     # Firefox system program (extensions/profile managed by home-manager)
     programs.firefox.enable = true;
+
+    # Networking
+    networking.networkmanager.enable = true;
   };
 }

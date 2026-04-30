@@ -22,30 +22,49 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
   let
-    system   = "x86_64-linux";
-    features = import ./features.nix;
+    system = "x86_64-linux";
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
-    # Args forwarded to every NixOS module and home-manager module
-    sharedArgs = { inherit inputs features pkgs-unstable; };
-  in {
-    # ── NixOS systems ──────────────────────────────────────────
-    nixosConfigurations.mochi = nixpkgs.lib.nixosSystem {
+
+    # Build specialArgs/extraSpecialArgs for a given host features file
+    mkArgs = featuresFile: { inherit inputs pkgs-unstable; features = import featuresFile; };
+
+    # Build a NixOS system with stylix + home-manager wired in
+    mkNixosSystem = { hostDir, featuresFile }: nixpkgs.lib.nixosSystem {
       inherit system;
-      specialArgs = sharedArgs;
+      specialArgs = mkArgs featuresFile;
       modules = [
-        ./hosts/mochi
+        hostDir
         inputs.stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs    = true;
           home-manager.useUserPackages  = true;
-          home-manager.extraSpecialArgs = sharedArgs;
+          home-manager.extraSpecialArgs = mkArgs featuresFile;
           home-manager.users.marauder   = import ./home.nix;
         }
       ];
+    };
+  in {
+    # ── NixOS systems ──────────────────────────────────────────
+    nixosConfigurations.mochi = mkNixosSystem {
+      hostDir      = ./hosts/mochi;
+      featuresFile = ./hosts/mochi/features.nix;
+    };
+
+    nixosConfigurations.mochi-guest = mkNixosSystem {
+      hostDir      = ./hosts/mochi-guest;
+      featuresFile = ./hosts/mochi-guest/features.nix;
+    };
+
+    # ── Non-NixOS homes (home-manager standalone) ──────────────
+    # Rebuild: home-manager switch --flake .#marauder@ubuntu-nix
+    homeConfigurations."marauder@ubuntu-nix" = home-manager.lib.homeManagerConfiguration {
+      pkgs            = nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = mkArgs ./hosts/ubuntu-nix/features.nix;
+      modules          = [ ./hosts/ubuntu-nix/home.nix ];
     };
   };
 }
