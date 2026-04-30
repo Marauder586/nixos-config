@@ -1,7 +1,7 @@
 # Home-manager standalone config for WSL (Ubuntu 24.04 + nix package manager).
 # Terminal-safe modules only — no GUI apps.
 # Rebuild: home-manager switch --flake .#balin@ubuntu-nix
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ../../modules/home/core.nix
@@ -12,6 +12,12 @@
   home.username      = "balin";
   home.homeDirectory = "/home/balin";
   home.stateVersion  = "25.11";
+
+  # Git identity — overrides core.nix defaults for this host
+  programs.git.settings.user = lib.mkForce {
+    name  = "example";
+    email = "example@example.com";
+  };
 
   # Stylix: Catppuccin Mocha — auto-themes all enabled programs
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
