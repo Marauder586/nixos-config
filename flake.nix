@@ -61,10 +61,13 @@
 
     # ── Non-NixOS homes (home-manager standalone) ──────────────
     # Rebuild: home-manager switch --flake .#marauder@ubuntu-nix
-    homeConfigurations."marauder@ubuntu-nix" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."balin@ubuntu-nix" = home-manager.lib.homeManagerConfiguration {
       pkgs            = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = mkArgs ./hosts/ubuntu-nix/features.nix;
-      modules          = [ ./hosts/ubuntu-nix/home.nix ];
+      extraSpecialArgs = mkArgs ./hosts/wsl-nix/features.nix;
+      modules          = [
+        inputs.stylix.homeManagerModules.stylix
+        ./hosts/wsl-nix/home.nix
+      ];
     };
   };
 }

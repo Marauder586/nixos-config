@@ -14,7 +14,7 @@
     services.ollama = {
       enable     = true;
       package    = pkgs-unstable.ollama-vulkan;  # AMD Vulkan GPU acceleration
-      loadModels = [ "qwen3.5:35b" ];
+      loadModels = [ "qwen2.5-coder:7b" ];
     };
 
     # ── Open WebUI ────────────────────────────────────────────
