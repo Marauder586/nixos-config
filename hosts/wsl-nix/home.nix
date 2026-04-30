@@ -13,6 +13,9 @@
   home.homeDirectory = "/home/balin";
   home.stateVersion  = "25.11";
 
+  # Iosevka Nerd Font — provides glyph coverage for eza --icons
+  home.packages = [ pkgs.nerd-fonts.iosevka ];
+
   # Git identity — overrides core.nix defaults for this host
   programs.git.settings.user = lib.mkForce {
     name  = "example";

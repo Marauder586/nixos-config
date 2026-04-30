@@ -24,6 +24,10 @@
   # ── Shell (required so user shell is available system-wide) ─
   programs.zsh.enable = true;
 
+  # ── Fonts ─────────────────────────────────────────────────
+  # Iosevka Nerd Font provides the glyph coverage needed by eza --icons
+  fonts.packages = [ pkgs.nerd-fonts.iosevka ];
+
   # ── Minimal system packages ───────────────────────────────
   environment.systemPackages = with pkgs; [
     vim
