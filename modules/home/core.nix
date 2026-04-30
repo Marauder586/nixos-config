@@ -23,7 +23,7 @@
     fd         # find
     ripgrep    # grep
     sd         # sed  (note: different syntax — use sd 'pat' 'repl' file)
-    du-dust    # du   (binary: dust)
+    dust    # du   (binary: dust)
     procs      # ps
     bottom     # top  (binary: btm)
     delta      # git pager / diff prettifier
