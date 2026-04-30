@@ -3,7 +3,7 @@
 # ============================================================
 # System features (desktop/audio/virtualization/gaming/ai/tailscale) are
 # NixOS-only and have no effect here; they are kept for schema consistency.
-# Rebuild: home-manager switch --flake .#marauder@ubuntu-nix
+# Rebuild: home-manager switch --flake .#marauder@wsl-nix
 # ============================================================
 {
   # ── System features (NixOS only — no-ops here) ───────────

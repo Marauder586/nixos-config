@@ -60,8 +60,8 @@
     };
 
     # ── Non-NixOS homes (home-manager standalone) ──────────────
-    # Rebuild: home-manager switch --flake .#marauder@ubuntu-nix
-    homeConfigurations."balin@ubuntu-nix" = home-manager.lib.homeManagerConfiguration {
+    # Rebuild: home-manager switch --flake .#balin@wsl-nix
+    homeConfigurations."balin@wsl-nix" = home-manager.lib.homeManagerConfiguration {
       pkgs            = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = mkArgs ./hosts/wsl-nix/features.nix;
       modules          = [

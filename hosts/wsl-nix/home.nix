@@ -1,6 +1,6 @@
 # Home-manager standalone config for WSL (Ubuntu 24.04 + nix package manager).
 # Terminal-safe modules only — no GUI apps.
-# Rebuild: home-manager switch --flake .#balin@ubuntu-nix
+# Rebuild: home-manager switch --flake .#balin@wsl-nix
 { pkgs, lib, ... }:
 {
   imports = [
