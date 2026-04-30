@@ -10,7 +10,8 @@
   audio          = true;   # PipeWire audio
   virtualization = false;  # guests don't run nested VMs
   gaming         = false;  # no GPU passthrough in guest
-  ai             = false;  # too resource-heavy for a VM
+  "local-ai"     = false;  # too resource-heavy for a VM
+  "remote-ai"    = false;
   tailscale      = true;   # Tailscale VPN daemon
 
   # ── User features (home-manager) ─────────────────────────

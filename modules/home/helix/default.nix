@@ -20,7 +20,6 @@
     clang-tools
     clojure-lsp
     cmake-language-server
-    codeql
     cuelsp
     delve
     docker-compose-language-service
@@ -37,7 +36,6 @@
     haskell-language-server
     helm-ls
     hyprls
-    intelephense
     jdt-language-server
     jq-lsp
     jsonnet-language-server

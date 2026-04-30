@@ -5,10 +5,10 @@
 # TTS: openedai-speech container (OpenAI-compatible endpoint, Kokoro backend).
 #      Models are downloaded into /var/lib/openedai-speech on first start.
 #
-# Controlled by: features.ai
+# Controlled by: features.local-ai
 { lib, features, pkgs-unstable, ... }:
 {
-  config = lib.mkIf features.ai {
+  config = lib.mkIf features."local-ai" {
 
     # ── Ollama ────────────────────────────────────────────────
     services.ollama = {

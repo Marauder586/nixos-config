@@ -10,7 +10,8 @@
   audio          = true;  # PipeWire audio
   virtualization = true;  # KVM / QEMU / libvirt
   gaming         = true;  # Steam
-  ai             = true;  # Ollama (Vulkan/AMD) + Open-WebUI
+  "local-ai"     = true;  # Ollama (Vulkan/AMD) + Open-WebUI
+  "remote-ai"    = true;  # Claude Code
   tailscale      = true;  # Tailscale VPN daemon
 
   # ── User features (home-manager) ─────────────────────────
