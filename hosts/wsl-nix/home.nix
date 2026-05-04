@@ -9,8 +9,8 @@
     ../../modules/home/monitoring.nix
   ];
 
-  home.username      = "balin";
-  home.homeDirectory = "/home/balin";
+  home.username      = "marauder";
+  home.homeDirectory = "/home/marauder";
   home.stateVersion  = "25.11";
 
   # Git identity — overrides core.nix defaults for this host

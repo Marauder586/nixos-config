@@ -21,6 +21,7 @@
         socat      # netcat replacement
         nmap
         ipcalc
+        net-tools
         git
       ];
     })

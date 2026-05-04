@@ -19,5 +19,5 @@
   development   = true;   # Helix + LSPs + network tooling (all terminal)
   communication = false;  # Signal + Vesktop are GUI apps
   monitoring    = true;   # htop / iotop / strace / pciutils etc. (all terminal)
-  "remote-ai"   = true;   # Claude Code
+  "remote-ai"   = false;   # Claude Code
 }
