@@ -65,8 +65,8 @@
   programs.bat = {
     enable = true;
     config = {
-      style = "numbers,changes,header";
-      pager = "less -FR";
+      paging = "never";
+      style = "plain";
     };
   };
 
@@ -161,7 +161,7 @@
     autosuggestion.enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = ["git"];
+      plugins = [ "git" ];
       theme = "nicoulaj";
     };
     shellAliases = {

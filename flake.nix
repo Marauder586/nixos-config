@@ -2,16 +2,16 @@
   description = "Modular NixOS / home-manager configuration";
 
   inputs = {
-    nixpkgs.url          = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    helix.url            = "github:helix-editor/helix/master";
+    helix.url = "github:helix-editor/helix/master";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    stylix.url     = "github:danth/stylix/release-25.11";
+    stylix.url = "github:danth/stylix/release-25.11";
     nix-colors.url = "github:misterio77/nix-colors";
 
     firefox-addons = {
@@ -60,8 +60,8 @@
     };
 
     # ── Non-NixOS homes (home-manager standalone) ──────────────
-    # Rebuild: home-manager switch --flake .#marauder@ubuntu-nix
-    homeConfigurations."balin@ubuntu-nix" = home-manager.lib.homeManagerConfiguration {
+    # Rebuild: home-manager switch --flake .#marauder@wsl-nix
+    homeConfigurations."marauder@wsl-nix" = home-manager.lib.homeManagerConfiguration {
       pkgs            = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = mkArgs ./hosts/wsl-nix/features.nix;
       modules          = [
