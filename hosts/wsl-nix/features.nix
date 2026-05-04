@@ -7,17 +7,18 @@
 # ============================================================
 {
   # ── System features (NixOS only — no-ops here) ───────────
-  desktop        = false;
-  audio          = false;
+  desktop = false;
+  audio = false;
   virtualization = false;
-  gaming         = false;
-  "local-ai"     = false;
-  tailscale      = false;
+  gaming = false;
+  "local-ai" = false;
+  tailscale = false;
 
   # ── User features (home-manager) ─────────────────────────
-  hyprland      = false;  # Wayland compositor — GUI, not available headless
-  development   = true;   # Helix + LSPs + network tooling (all terminal)
-  communication = false;  # Signal + Vesktop are GUI apps
-  monitoring    = true;   # htop / iotop / strace / pciutils etc. (all terminal)
-  "remote-ai"   = false;   # Claude Code
+  hyprland = false; # Wayland compositor — GUI, not available headless
+  development = true; # Helix + LSPs + network tooling (all terminal)
+  communication = false; # Signal + Vesktop are GUI apps
+  monitoring = true; # htop / iotop / strace / pciutils etc. (all terminal)
+  "remote-ai" = false; # Claude Code
+  "k8s-util" = true; # kubectl + k9s
 }

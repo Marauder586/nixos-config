@@ -6,17 +6,18 @@
 # ============================================================
 {
   # ── System features (NixOS only) ─────────────────────────
-  desktop        = true;   # GNOME desktop + X11 + Stylix theming
-  audio          = true;   # PipeWire audio
-  virtualization = false;  # guests don't run nested VMs
-  gaming         = false;  # no GPU passthrough in guest
-  "local-ai"     = false;  # too resource-heavy for a VM
-  "remote-ai"    = true;
-  tailscale      = true;   # Tailscale VPN daemon
+  desktop = true; # GNOME desktop + X11 + Stylix theming
+  audio = true; # PipeWire audio
+  virtualization = false; # guests don't run nested VMs
+  gaming = false; # no GPU passthrough in guest
+  "local-ai" = false; # too resource-heavy for a VM
+  "remote-ai" = true;
+  tailscale = true; # Tailscale VPN daemon
 
   # ── User features (home-manager) ─────────────────────────
-  hyprland      = true;  # Hyprland + Alacritty + Firefox
-  development   = true;  # Helix + 70+ LSPs + network tooling
-  communication = true;  # Signal Desktop + Vesktop (Discord)
-  monitoring    = true;  # htop / iotop / sensors / strace / pciutils
+  hyprland = true; # Hyprland + Alacritty + Firefox
+  development = true; # Helix + 70+ LSPs + network tooling
+  communication = true; # Signal Desktop + Vesktop (Discord)
+  monitoring = true; # htop / iotop / sensors / strace / pciutils
+  "k8s-util" = true; # kubectl + k9s
 }
