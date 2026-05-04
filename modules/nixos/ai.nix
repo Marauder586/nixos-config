@@ -17,7 +17,11 @@
     services.ollama = {
       enable = true;
       package = pkgs-unstable.ollama-vulkan; # AMD Vulkan GPU acceleration
-      loadModels = ["qwen2.5-coder:7b"];
+      loadModels = [
+        "qwen2.5-coder:7b" # primary code model — fits in 9070 XT VRAM
+        "llama3.1:8b" # fast general chat
+        "nomic-embed-text" # RAG document embeddings (~270 MB)
+      ];
     };
 
     # ── Open WebUI ────────────────────────────────────────────
@@ -26,8 +30,9 @@
       environment = {
         # STT — faster-whisper (built-in, no extra service needed)
         AUDIO_STT_ENGINE = "faster-whisper";
-        AUDIO_STT_MODEL = "distil-large-v3";
-        # Use "cuda" here once ROCm 6.x fully supports gfx1201 (RDNA 4 / 9070 XT)
+        # distil-small.en is ~4x faster than distil-large-v3 on CPU; English-only
+        # Switch back to distil-large-v3 once ROCm supports gfx1201 and DEVICE can be "cuda"
+        AUDIO_STT_MODEL = "distil-small.en";
         AUDIO_STT_DEVICE = "cpu";
 
         # TTS — openedai-speech running on localhost:8000
@@ -36,6 +41,11 @@
         AUDIO_TTS_OPENAI_API_KEY = "sk-openedai"; # ignored by the server
         AUDIO_TTS_MODEL = "kokoro";
         AUDIO_TTS_VOICE = "af_sky";
+
+        # RAG — local embeddings via Ollama, no external API needed
+        RAG_EMBEDDING_ENGINE = "ollama";
+        RAG_EMBEDDING_MODEL = "nomic-embed-text";
+        ENABLE_RAG_WEB_SEARCH = "true";
       };
     };
 
