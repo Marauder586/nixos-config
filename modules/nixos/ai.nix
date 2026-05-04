@@ -33,6 +33,7 @@
         # Switch back to distil-large-v3 once ROCm supports gfx1201 and DEVICE can be "cuda"
         AUDIO_STT_MODEL = "distil-small.en";
         AUDIO_STT_DEVICE = "cpu";
+        WHISPER_VAD_FILTER = "true";
 
         # TTS — openai-edge-tts running on localhost:5050
         AUDIO_TTS_ENGINE = "openai";
