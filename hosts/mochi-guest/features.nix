@@ -11,7 +11,7 @@
   virtualization = false;  # guests don't run nested VMs
   gaming         = false;  # no GPU passthrough in guest
   "local-ai"     = false;  # too resource-heavy for a VM
-  "remote-ai"    = false;
+  "remote-ai"    = true;
   tailscale      = true;   # Tailscale VPN daemon
 
   # ── User features (home-manager) ─────────────────────────
