@@ -2,8 +2,7 @@
 #
 # STT: faster-whisper (built into Open WebUI, runs on CPU — switch
 #      AUDIO_STT_DEVICE to "cuda" once ROCm fully supports gfx1201/RDNA4).
-# TTS: openedai-speech container (OpenAI-compatible endpoint, Kokoro backend).
-#      Models are downloaded into /var/lib/openedai-speech on first start.
+# TTS: openai-edge-tts container (OpenAI-compatible endpoint, Edge TTS backend).
 #
 # Controlled by: features.local-ai
 {
@@ -35,12 +34,12 @@
         AUDIO_STT_MODEL = "distil-small.en";
         AUDIO_STT_DEVICE = "cpu";
 
-        # TTS — openedai-speech running on localhost:8000
+        # TTS — openai-edge-tts running on localhost:5050
         AUDIO_TTS_ENGINE = "openai";
-        AUDIO_TTS_OPENAI_API_BASE_URL = "http://127.0.0.1:8000/v1";
-        AUDIO_TTS_OPENAI_API_KEY = "sk-openedai"; # ignored by the server
-        AUDIO_TTS_MODEL = "kokoro";
-        AUDIO_TTS_VOICE = "af_sky";
+        AUDIO_TTS_OPENAI_API_BASE_URL = "http://127.0.0.1:5050/v1";
+        AUDIO_TTS_OPENAI_API_KEY = "unused"; # not validated by the server
+        AUDIO_TTS_MODEL = "tts-1";
+        AUDIO_TTS_VOICE = "en-US-AvaNeural";
 
         # RAG — local embeddings via Ollama, no external API needed
         RAG_EMBEDDING_ENGINE = "ollama";
@@ -49,19 +48,13 @@
       };
     };
 
-    # ── openedai-speech container ─────────────────────────────
-    # Persistent directory for downloaded Kokoro voice models (~500 MB)
-    systemd.tmpfiles.rules = [
-      "d /var/lib/openedai-speech 0755 root root -"
-    ];
-
-    virtualisation.oci-containers.containers.openedai-speech = {
-      image = "ghcr.io/matatonic/openedai-speech";
-      ports = ["127.0.0.1:8000:8000"];
-      # Persist voice model cache across container rebuilds
-      volumes = ["/var/lib/openedai-speech:/app/voices"];
+    # ── openai-edge-tts container ─────────────────────────────
+    virtualisation.oci-containers.containers.openai-edge-tts = {
+      image = "travisvn/openai-edge-tts:latest";
+      ports = ["127.0.0.1:5050:5050"];
       environment = {
-        PRELOAD_MODEL = "kokoro"; # download Kokoro on startup, not on first request
+        DEFAULT_VOICE = "en-US-AvaNeural";
+        REQUIRE_API_KEY = "False";
       };
     };
 
