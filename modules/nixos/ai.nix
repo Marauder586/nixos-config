@@ -54,6 +54,7 @@
       ports = ["127.0.0.1:5050:5050"];
       environment = {
         DEFAULT_VOICE = "en-US-AvaNeural";
+        DEFAULT_SPEED = "1.3";
         REQUIRE_API_KEY = "False";
       };
     };
