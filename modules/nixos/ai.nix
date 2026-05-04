@@ -39,7 +39,7 @@
         AUDIO_TTS_OPENAI_API_BASE_URL = "http://127.0.0.1:5050/v1";
         AUDIO_TTS_OPENAI_API_KEY = "unused"; # not validated by the server
         AUDIO_TTS_MODEL = "tts-1";
-        AUDIO_TTS_VOICE = "en-US-AvaNeural";
+        AUDIO_TTS_VOICE = "en-IE-EmilyNeural";
 
         # RAG — local embeddings via Ollama, no external API needed
         RAG_EMBEDDING_ENGINE = "ollama";
@@ -53,7 +53,7 @@
       image = "travisvn/openai-edge-tts:latest";
       ports = ["127.0.0.1:5050:5050"];
       environment = {
-        DEFAULT_VOICE = "en-US-AvaNeural";
+        DEFAULT_VOICE = "en-IE-EmilyNeural";
         DEFAULT_SPEED = "1.3";
         REQUIRE_API_KEY = "False";
       };
