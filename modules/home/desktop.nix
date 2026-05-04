@@ -123,7 +123,10 @@
 
     # ── GNOME-only ────────────────────────────────────────────────────
     (lib.mkIf features.desktop {
-      home.packages = with pkgs; [obsidian];
+      home.packages = with pkgs; [
+        obsidian
+        libreoffice
+      ];
 
       dconf.settings."org/gnome/shell" = {
         favorite-apps =
