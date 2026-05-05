@@ -1,7 +1,12 @@
 # Always-on user configuration.
 # Git, shell (bash + zsh), and essential CLI tools that belong on every machine.
-# No stylix references here — this module is used on non-NixOS hosts too.
-{pkgs, ...}: {
+# All current hosts (mochi, mochi-guest, hm-foreign) enable Stylix, so this
+# module reads `config.lib.stylix.colors` for the delta diff theme.
+{
+  config,
+  pkgs,
+  ...
+}: {
   home.sessionVariables = {
     EDITOR = "hx";
   };
@@ -108,10 +113,25 @@
         pager = "delta";
       };
       interactive.diffFilter = "delta --color-only";
-      delta = {
+      delta = let
+        c = config.lib.stylix.colors;
+      in {
         navigate = true;
         side-by-side = true;
         line-numbers = true;
+
+        # Diff line backgrounds use base02 (subtle highlight slot of the
+        # active base16 scheme); foreground stays `syntax` so bat-coloured
+        # code keeps its tones. +/- markers in the gutter use the scheme's
+        # red (base08) and green (base0B). Whole thing follows whatever
+        # Stylix scheme the host picks — Catppuccin Mocha today, Everforest
+        # on mochi-guest, etc.
+        minus-style = "syntax \"#${c.base02}\"";
+        minus-emph-style = "bold syntax \"#${c.base02}\"";
+        plus-style = "syntax \"#${c.base02}\"";
+        plus-emph-style = "bold syntax \"#${c.base02}\"";
+        line-numbers-minus-style = "bold \"#${c.base08}\"";
+        line-numbers-plus-style = "bold \"#${c.base0B}\"";
       };
       column.ui = "auto";
       init.defaultBranch = "main";
@@ -162,7 +182,7 @@
     autosuggestion.enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = ["git"];
       theme = "nicoulaj";
     };
     shellAliases = {
