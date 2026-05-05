@@ -5,8 +5,31 @@
 {
   config,
   pkgs,
+  lib,
+  inputs,
   ...
-}: {
+}: let
+  # Linear-interpolate between two base16 hex strings (no leading #).
+  # mixHex a b t  →  a when t=0, b when t=1.
+  # Uses nix-colors' hexToRGB on the way in; lib.toHexString + zero-pad
+  # on the way back. Round half-up via floor(x + 0.5).
+  pad2 = s:
+    if lib.stringLength s == 1
+    then "0${s}"
+    else s;
+  toHex2 = n: pad2 (lib.toLower (lib.toHexString n));
+  mixHex = a: b: t: let
+    rgbA = inputs.nix-colors.lib.conversions.hexToRGB a;
+    rgbB = inputs.nix-colors.lib.conversions.hexToRGB b;
+    blend = i:
+      builtins.floor (
+        (1.0 - t)
+        * (lib.elemAt rgbA i)
+        + t * (lib.elemAt rgbB i)
+        + 0.5
+      );
+  in "${toHex2 (blend 0)}${toHex2 (blend 1)}${toHex2 (blend 2)}";
+in {
   home.sessionVariables = {
     EDITOR = "hx";
   };
@@ -120,16 +143,16 @@
         side-by-side = true;
         line-numbers = true;
 
-        # Diff line backgrounds use base02 (subtle highlight slot of the
-        # active base16 scheme); foreground stays `syntax` so bat-coloured
-        # code keeps its tones. +/- markers in the gutter use the scheme's
-        # red (base08) and green (base0B). Whole thing follows whatever
-        # Stylix scheme the host picks — Catppuccin Mocha today, Everforest
-        # on mochi-guest, etc.
-        minus-style = "syntax \"#${c.base02}\"";
-        minus-emph-style = "bold syntax \"#${c.base02}\"";
-        plus-style = "syntax \"#${c.base02}\"";
-        plus-emph-style = "bold syntax \"#${c.base02}\"";
+        # Diff line backgrounds: red (base08) / green (base0B) blended into
+        # the scheme's base bg (base00) at 20% (faint) and 35% (emph). This
+        # matches the upstream Catppuccin delta theme's recipe but stays
+        # scheme-agnostic — swap stylix.base16Scheme and the diff tints
+        # follow. Foreground stays `syntax` so bat-coloured code keeps its
+        # tones. Gutter line numbers use the pure base08 / base0B accents.
+        minus-style = "syntax \"#${mixHex c.base00 c.base08 0.20}\"";
+        minus-emph-style = "bold syntax \"#${mixHex c.base00 c.base08 0.35}\"";
+        plus-style = "syntax \"#${mixHex c.base00 c.base0B 0.20}\"";
+        plus-emph-style = "bold syntax \"#${mixHex c.base00 c.base0B 0.35}\"";
         line-numbers-minus-style = "bold \"#${c.base08}\"";
         line-numbers-plus-style = "bold \"#${c.base0B}\"";
       };
