@@ -11,7 +11,7 @@
   audio = false;
   virtualization = false;
   gaming = false;
-  "local-ai" = false;
+  localAi = false;
   tailscale = false;
 
   # ── User features (home-manager) ─────────────────────────
@@ -19,6 +19,7 @@
   development = true; # Helix + LSPs + network tooling (all terminal)
   communication = false; # Signal + Vesktop are GUI apps
   monitoring = true; # htop / iotop / strace / pciutils etc. (all terminal)
-  "remote-ai" = false; # Claude Code
-  "k8s-util" = true; # kubectl + k9s
+  remoteAi = false; # Claude Code
+  k8sUtil = true; # kubectl + k9s
+  codingAgent = false; # local agent stack — needs an Ollama / OpenAI endpoint
 }

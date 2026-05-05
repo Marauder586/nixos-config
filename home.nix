@@ -10,6 +10,7 @@
     ./modules/home/monitoring.nix
     ./modules/home/virtualization.nix
     ./modules/home/k8s.nix
+    ./modules/home/coding-agent
   ];
 
   home.username = "marauder";

@@ -1,8 +1,12 @@
 # Machine-specific configuration for "mochi"
 # Hardware, boot, hostname, and user account live here.
 # Shared behaviour is in modules/nixos/.
-{ pkgs, lib, features, ... }:
 {
+  pkgs,
+  lib,
+  features,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos/core.nix
@@ -11,6 +15,7 @@
     ../../modules/nixos/virtualization.nix
     ../../modules/nixos/gaming.nix
     ../../modules/nixos/ai.nix
+    ../../modules/nixos/comfyui.nix
     ../../modules/nixos/networking.nix
   ];
 
@@ -19,7 +24,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # kvm-amd kernel module is declared in hardware-configuration.nix
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   # ── Identity ──────────────────────────────────────────────
   networking.hostName = "mochi";
@@ -28,8 +33,9 @@
   users.users.marauder = {
     isNormalUser = true;
     description = "marauder";
-    extraGroups = [ "networkmanager" "wheel" ]
-      ++ lib.optionals features.virtualization [ "kvm" "libvirtd" ];
+    extraGroups =
+      ["networkmanager" "wheel"]
+      ++ lib.optionals features.virtualization ["kvm" "libvirtd"];
     shell = pkgs.zsh;
   };
 

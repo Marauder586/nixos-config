@@ -109,6 +109,7 @@
               bitwarden
               privacy-badger
               ublock-origin
+              videospeed # Video Speed Controller — keyboard playback rate
             ];
           };
         };

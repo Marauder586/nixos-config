@@ -10,8 +10,8 @@
   audio = true; # PipeWire audio
   virtualization = false; # guests don't run nested VMs
   gaming = false; # no GPU passthrough in guest
-  "local-ai" = false; # too resource-heavy for a VM
-  "remote-ai" = true;
+  localAi = false; # too resource-heavy for a VM
+  remoteAi = true;
   tailscale = true; # Tailscale VPN daemon
 
   # ── User features (home-manager) ─────────────────────────
@@ -19,5 +19,12 @@
   development = true; # Helix + 70+ LSPs + network tooling
   communication = true; # Signal Desktop + Vesktop (Discord)
   monitoring = true; # htop / iotop / sensors / strace / pciutils
-  "k8s-util" = true; # kubectl + k9s
+  k8sUtil = true; # kubectl + k9s
+  codingAgent = true; # opencode + aider + goose + crush + skills
+
+  # ── Endpoints (consumed by coding-agent) ──────────────────
+  # Mochi host is reachable from the guest via QEMU SLIRP at 10.0.2.2.
+  ollamaHost = "http://10.0.2.2:11434";
+  comfyuiHost = "http://10.0.2.2:8188";
+  openWebuiHost = "http://10.0.2.2:8080";
 }

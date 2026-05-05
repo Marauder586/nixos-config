@@ -1,7 +1,11 @@
 # GNOME desktop environment, X11, Stylix theming, printing.
 # Controlled by: features.desktop
-{ pkgs, lib, features, ... }:
 {
+  pkgs,
+  lib,
+  features,
+  ...
+}: {
   config = lib.mkIf features.desktop {
     # Display server + desktop environment
     services.xserver.enable = true;
@@ -17,8 +21,8 @@
 
     # Theming (Stylix — system-wide Catppuccin Mocha)
     stylix.enable = true;
-    stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    stylix.image = ../../comfy-home.png;
+    stylix.base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+    stylix.image = lib.mkDefault ../../comfy-home.png;
 
     # Firefox system program (extensions/profile managed by home-manager)
     programs.firefox.enable = true;

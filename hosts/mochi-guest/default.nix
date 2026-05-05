@@ -43,6 +43,20 @@
   # ── Identity ──────────────────────────────────────────────
   networking.hostName = "mochi-guest";
 
+  # Distinct theme so guest VM is visually distinguishable from mochi host.
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
+  stylix.image = ../../everforest.jpg;
+
+  # ── kind test cluster (kingdom.test → localhost) ──────────
+  # Port-forward ingress-nginx: kubectl port-forward -n clowder-test
+  #   svc/clowder-ingress-nginx-controller 8080:80 8443:443
+  networking.extraHosts = ''
+    127.0.0.1 forgejo.kingdom.test
+    127.0.0.1 keycloak.kingdom.test
+    127.0.0.1 lldap.kingdom.test
+    127.0.0.1 actual.kingdom.test
+  '';
+
   # ── Users ─────────────────────────────────────────────────
   users.users.marauder = {
     isNormalUser = true;
