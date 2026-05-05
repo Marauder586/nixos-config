@@ -20,8 +20,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
-  let
+  outputs = {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    ...
+  } @ inputs: let
     system = "x86_64-linux";
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
@@ -29,44 +34,53 @@
     };
 
     # Build specialArgs/extraSpecialArgs for a given host features file
-    mkArgs = featuresFile: { inherit inputs pkgs-unstable; features = import featuresFile; };
+    mkArgs = featuresFile: {
+      inherit inputs pkgs-unstable;
+      features = import featuresFile;
+    };
 
     # Build a NixOS system with stylix + home-manager wired in
-    mkNixosSystem = { hostDir, featuresFile }: nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = mkArgs featuresFile;
-      modules = [
-        hostDir
-        inputs.stylix.nixosModules.stylix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs    = true;
-          home-manager.useUserPackages  = true;
-          home-manager.extraSpecialArgs = mkArgs featuresFile;
-          home-manager.users.marauder   = import ./home.nix;
-        }
-      ];
-    };
+    mkNixosSystem = {
+      hostDir,
+      featuresFile,
+    }:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = mkArgs featuresFile;
+        modules = [
+          hostDir
+          inputs.stylix.nixosModules.stylix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = mkArgs featuresFile;
+            home-manager.users.marauder = import ./home.nix;
+          }
+        ];
+      };
   in {
     # ── NixOS systems ──────────────────────────────────────────
     nixosConfigurations.mochi = mkNixosSystem {
-      hostDir      = ./hosts/mochi;
+      hostDir = ./hosts/mochi;
       featuresFile = ./hosts/mochi/features.nix;
     };
 
     nixosConfigurations.mochi-guest = mkNixosSystem {
-      hostDir      = ./hosts/mochi-guest;
+      hostDir = ./hosts/mochi-guest;
       featuresFile = ./hosts/mochi-guest/features.nix;
     };
 
     # ── Non-NixOS homes (home-manager standalone) ──────────────
-    # Rebuild: home-manager switch --flake .#marauder@wsl-nix
-    homeConfigurations."marauder@wsl-nix" = home-manager.lib.homeManagerConfiguration {
-      pkgs            = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = mkArgs ./hosts/wsl-nix/features.nix;
-      modules          = [
+    # Foreign = any non-NixOS Linux (Debian/Ubuntu/WSL/etc.) running Nix as
+    # a package manager with home-manager on top.
+    # Rebuild: home-manager switch --flake .#marauder@hm-foreign
+    homeConfigurations."marauder@hm-foreign" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = mkArgs ./hosts/hm-foreign/features.nix;
+      modules = [
         inputs.stylix.homeManagerModules.stylix
-        ./hosts/wsl-nix/home.nix
+        ./hosts/hm-foreign/home.nix
       ];
     };
   };

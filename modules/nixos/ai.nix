@@ -4,14 +4,14 @@
 #      AUDIO_STT_DEVICE to "cuda" once ROCm fully supports gfx1201/RDNA4).
 # TTS: openai-edge-tts container (OpenAI-compatible endpoint, Edge TTS backend).
 #
-# Controlled by: features.local-ai
+# Controlled by: features.localAi
 {
   lib,
   features,
   pkgs-unstable,
   ...
 }: {
-  config = lib.mkIf features."local-ai" {
+  config = lib.mkIf features.localAi {
     # ── Ollama ────────────────────────────────────────────────
     services.ollama = {
       enable = true;

@@ -1,8 +1,13 @@
 # Helix editor (with language servers) and network/debug tooling.
-# Controlled by: features.development, features.remote-ai
-{ pkgs, pkgs-unstable, lib, features, ... }:
+# Controlled by: features.development, features.remoteAi
 {
-  imports = lib.optionals features.development [ ./helix ];
+  pkgs,
+  pkgs-unstable,
+  lib,
+  features,
+  ...
+}: {
+  imports = lib.optionals features.development [./helix];
 
   config = lib.mkMerge [
     (lib.mkIf features.development {
@@ -15,10 +20,10 @@
         # Network diagnostics / security tooling
         mtr
         iperf3
-        dnsutils   # dig + nslookup
-        ldns       # drill
-        aria2      # multi-protocol downloader
-        socat      # netcat replacement
+        dnsutils # dig + nslookup
+        ldns # drill
+        aria2 # multi-protocol downloader
+        socat # netcat replacement
         nmap
         ipcalc
         net-tools
@@ -26,9 +31,10 @@
       ];
     })
 
-    (lib.mkIf features."remote-ai" {
-      home.packages = with pkgs-unstable; [
-        claude-code
+    (lib.mkIf features.remoteAi {
+      home.packages = [
+        pkgs-unstable.claude-code
+        pkgs.sox # required by Claude Code's /voice mode for mic capture
       ];
     })
   ];

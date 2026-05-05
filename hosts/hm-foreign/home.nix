@@ -1,6 +1,7 @@
-# Home-manager standalone config for WSL (Ubuntu 24.04 + nix package manager).
+# Home-manager standalone config for any non-NixOS Linux running Nix as a
+# package manager (Debian, Ubuntu, WSL Ubuntu/Debian, Pop!_OS, Mint, …).
 # Terminal-safe modules only — no GUI apps.
-# Rebuild: home-manager switch --flake .#balin@wsl-nix
+# Rebuild: home-manager switch --flake .#marauder@hm-foreign
 {
   pkgs,
   lib,
