@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
-# Bootstrap a minimal Debian/Ubuntu install into the wsl-nix home-manager config.
+# Bootstrap a minimal Debian-family install (Debian/Ubuntu/WSL/Pop!/Mint…)
+# into the hm-foreign home-manager config.
 # Run once as a regular user with sudo privileges.
+#
+# One-liner install:
+#   curl -fsSL https://raw.githubusercontent.com/Marauder586/nixos-config/main/bootstrap-hm-foreign.sh | bash
+#
+# (Use `bash`, not `sh` — Debian's /bin/sh is dash and won't accept `[[`,
+# `$EUID`, etc.)
 set -euo pipefail
 
 # ── Colours ──────────────────────────────────────────────────────────────────
@@ -8,7 +15,10 @@ GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
 step()  { echo -e "\n${GREEN}==> $*${NC}"; }
 warn()  { echo -e "${YELLOW} !  $*${NC}"; }
 die()   { echo -e "${RED}ERR $*${NC}" >&2; exit 1; }
-pause() { echo -e "\n${YELLOW}$*${NC}"; read -rp "    Press Enter to continue..."; }
+# Read prompts from /dev/tty so they work when the script itself is being
+# piped in via `curl ... | bash` (in which case stdin is the pipe, not the
+# terminal, and a bare `read` would consume the rest of the script).
+pause() { echo -e "\n${YELLOW}$*${NC}"; read -rp "    Press Enter to continue..." </dev/tty; }
 
 [[ $EUID -eq 0 ]] && die "Run as a regular user, not root."
 
@@ -60,34 +70,44 @@ else
 fi
 
 echo ""
-echo "────────────────────────────────────────────────"
-echo "  Public key:"
-echo ""
-cat ~/.ssh/id_ed25519.pub
-echo ""
-echo "  Add it to GitHub: https://github.com/settings/ssh/new"
-echo "────────────────────────────────────────────────"
+read -rp "Will this host push changes back to nixos-config? [y/N] " push_access </dev/tty
+push_access=${push_access,,}
 
-pause "Add the key to GitHub, then press Enter."
+if [[ $push_access == y* ]]; then
+  echo ""
+  echo "────────────────────────────────────────────────"
+  echo "  Public key:"
+  echo ""
+  cat ~/.ssh/id_ed25519.pub
+  echo ""
+  echo "  Add it to GitHub: https://github.com/settings/ssh/new"
+  echo "────────────────────────────────────────────────"
 
-step "Testing GitHub SSH connection..."
-# Accept the host key automatically on first connect, then verify auth
-ssh -T git@github.com -o StrictHostKeyChecking=accept-new 2>&1 \
-  | grep -q "successfully authenticated" \
-  || warn "Could not confirm GitHub auth — continuing anyway. Check your key if the clone fails."
+  pause "Add the key to GitHub, then press Enter."
+
+  step "Testing GitHub SSH connection..."
+  ssh -T git@github.com -o StrictHostKeyChecking=accept-new 2>&1 \
+    | grep -q "successfully authenticated" \
+    || warn "Could not confirm GitHub auth — continuing anyway. Check your key if the clone fails."
+
+  clone_url="git@github.com:Marauder586/nixos-config.git"
+else
+  warn "Skipping GitHub key setup — cloning read-only over HTTPS."
+  clone_url="https://github.com/Marauder586/nixos-config.git"
+fi
 
 # ── 4. Clone nixos-config ────────────────────────────────────────────────────
 step "Cloning nixos-config..."
 if [[ -d ~/nixos-config/.git ]]; then
   warn "~/nixos-config already exists — skipping clone."
 else
-  git clone git@github.com:Marauder586/nixos-config.git ~/nixos-config
+  git clone "$clone_url" ~/nixos-config
 fi
 
-# ── 5. Build wsl-nix home-manager config ─────────────────────────────────────
+# ── 5. Build hm-foreign home-manager config ─────────────────────────────────
 step "Building home-manager config (this will take a while on first run)..."
 nix run github:nix-community/home-manager/release-25.11 -- \
-  switch --flake ~/nixos-config#marauder@wsl-nix
+  switch --flake ~/nixos-config#marauder@hm-foreign
 
 # ── Done ─────────────────────────────────────────────────────────────────────
 echo ""
