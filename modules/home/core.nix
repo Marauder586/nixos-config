@@ -16,6 +16,7 @@
     xz
     unzip
     zstd
+    p7zip
 
     # Modern Unix replacements (GNU → Rust)
     eza # ls

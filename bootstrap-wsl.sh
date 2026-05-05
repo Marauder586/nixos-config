@@ -17,6 +17,9 @@ step "Installing apt dependencies..."
 sudo apt-get update -qq
 sudo apt-get install -y \
   curl \
+  dconf-cli \
+  dconf-service \
+  dbus-user-session \
   xz-utils \
   git \
   ca-certificates \
