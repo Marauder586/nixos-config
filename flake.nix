@@ -74,13 +74,31 @@
     # ── Non-NixOS homes (home-manager standalone) ──────────────
     # Foreign = any non-NixOS Linux (Debian/Ubuntu/WSL/etc.) running Nix as
     # a package manager with home-manager on top.
-    # Rebuild: home-manager switch --flake .#marauder@hm-foreign
-    homeConfigurations."marauder@hm-foreign" = home-manager.lib.homeManagerConfiguration {
+    #
+    # Username and home directory are read from $USER / $HOME at switch
+    # time so a single output works for any login (marauder, ubuntu, debian,
+    # nick, …). This requires --impure because pure-eval can't read env.
+    #
+    # Rebuild: home-manager switch --flake .#hm-foreign --impure
+    homeConfigurations.hm-foreign = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = mkArgs ./hosts/hm-foreign/features.nix;
       modules = [
         inputs.stylix.homeManagerModules.stylix
         ./hosts/hm-foreign/home.nix
+        ({...}: let
+          user = builtins.getEnv "USER";
+          home = builtins.getEnv "HOME";
+        in {
+          home.username =
+            if user != ""
+            then user
+            else throw "USER env var is empty — re-run with --impure from an interactive shell.";
+          home.homeDirectory =
+            if home != ""
+            then home
+            else throw "HOME env var is empty — re-run with --impure from an interactive shell.";
+        })
       ];
     };
   };

@@ -1,7 +1,7 @@
 # Home-manager standalone config for any non-NixOS Linux running Nix as a
 # package manager (Debian, Ubuntu, WSL Ubuntu/Debian, Pop!_OS, Mint, …).
 # Terminal-safe modules only — no GUI apps.
-# Rebuild: home-manager switch --flake .#marauder@hm-foreign
+# Rebuild: home-manager switch --flake .#hm-foreign --impure
 {
   pkgs,
   lib,
@@ -13,8 +13,8 @@
     ../../modules/home/monitoring.nix
   ];
 
-  home.username = "marauder";
-  home.homeDirectory = "/home/marauder";
+  # username / homeDirectory are injected by flake.nix from $USER / $HOME
+  # at switch time, so this config works for any login.
   home.stateVersion = "25.11";
 
   # Git identity — overrides core.nix defaults for this host

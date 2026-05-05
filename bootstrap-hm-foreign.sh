@@ -108,9 +108,11 @@ else
 fi
 
 # ── 5. Build hm-foreign home-manager config ─────────────────────────────────
+# --impure is required: the flake reads $USER / $HOME at eval time so a
+# single output adapts to whatever login the host happens to use.
 step "Building home-manager config (this will take a while on first run)..."
 nix run github:nix-community/home-manager/release-25.11 -- \
-  switch --flake ~/nixos-config#marauder@hm-foreign
+  switch --flake ~/nixos-config#hm-foreign --impure
 
 # ── Done ─────────────────────────────────────────────────────────────────────
 echo ""
