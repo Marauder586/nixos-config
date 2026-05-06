@@ -144,15 +144,16 @@ in {
         line-numbers = true;
 
         # Diff line backgrounds: red (base08) / green (base0B) blended into
-        # the scheme's base bg (base00) at 20% (faint) and 35% (emph). This
-        # matches the upstream Catppuccin delta theme's recipe but stays
-        # scheme-agnostic — swap stylix.base16Scheme and the diff tints
-        # follow. Foreground stays `syntax` so bat-coloured code keeps its
-        # tones. Gutter line numbers use the pure base08 / base0B accents.
-        minus-style = "syntax \"#${mixHex c.base00 c.base08 0.20}\"";
-        minus-emph-style = "bold syntax \"#${mixHex c.base00 c.base08 0.35}\"";
-        plus-style = "syntax \"#${mixHex c.base00 c.base0B 0.20}\"";
-        plus-emph-style = "bold syntax \"#${mixHex c.base00 c.base0B 0.35}\"";
+        # the scheme's base bg (base00) at 50% (line) and 70% (emph). This
+        # is louder than the upstream Catppuccin recipe (20% / 35%) — closer
+        # to the classic git-diff feel — but stays scheme-agnostic, so
+        # swapping stylix.base16Scheme retints the diff. Foreground stays
+        # `syntax` so bat-coloured code keeps its tones. Gutter line numbers
+        # use the pure base08 / base0B accents.
+        minus-style = "syntax \"#${mixHex c.base00 c.base08 0.50}\"";
+        minus-emph-style = "bold syntax \"#${mixHex c.base00 c.base08 0.70}\"";
+        plus-style = "syntax \"#${mixHex c.base00 c.base0B 0.50}\"";
+        plus-emph-style = "bold syntax \"#${mixHex c.base00 c.base0B 0.70}\"";
         line-numbers-minus-style = "bold \"#${c.base08}\"";
         line-numbers-plus-style = "bold \"#${c.base0B}\"";
       };
