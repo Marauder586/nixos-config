@@ -136,6 +136,8 @@
             "Alacritty.desktop"
           ]
           ++ lib.optional features.communication "signal.desktop"
+          ++ lib.optional features.communication "vesktop.desktop"
+          ++ lib.optional features.gaming "steam.desktop"
           ++ ["org.gnome.Nautilus.desktop"];
       };
     })

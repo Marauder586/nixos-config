@@ -64,6 +64,7 @@
     taplo
     terraform-ls
     texlab
+    tinymist
     ty
     typescript-language-server
     vscode-langservers-extracted
