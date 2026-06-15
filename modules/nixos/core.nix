@@ -29,4 +29,10 @@
     vim
     wget
   ];
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true; # lets oci-containers use the docker CLI shim
+  };
+  virtualisation.oci-containers.backend = "podman";
 }
