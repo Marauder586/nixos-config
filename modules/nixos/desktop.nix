@@ -33,12 +33,12 @@
     # Other
     services.flatpak = {
       enable = true;
-      packages = [ "com.bambulab.BambuStudio" ];
+      packages = ["com.bambulab.BambuStudio"];
 
-      # revoke network access to Bambu Studio
-      overrides.files = [
-        ./flatpak-overrides/com.bambulab.BambuStudio
-      ];
+      # Revoke network access to Bambu Studio. nix-flatpak's `overrides` is an
+      # attrset keyed by app-id → section → key; list values get merged with
+      # any externally-applied entries (see nix-flatpak options.nix).
+      overrides."com.bambulab.BambuStudio".Context.shared = ["!network" "!ipc"];
     };
   };
 }
