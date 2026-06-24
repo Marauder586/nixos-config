@@ -16,7 +16,7 @@
         nix-direnv.enable = true;
       };
 
-      home.packages = with pkgs; [
+      home.packages = (with pkgs; [
         # Network diagnostics / security tooling
         mtr
         iperf3
@@ -28,7 +28,22 @@
         ipcalc
         net-tools
         git
-      ];
+        gnumake
+
+        minicom
+        dive
+
+        libtool
+        autoconf
+        automake
+        gnum4
+
+      ]) ++ (with pkgs-unstable; [
+        # Rust
+        rustc
+        cargo
+        gcc
+      ]);
     })
 
     (lib.mkIf features.remoteAi {

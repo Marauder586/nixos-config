@@ -8,8 +8,10 @@
 }: {
   config = lib.mkIf features.k8sUtil {
     home.packages = with pkgs; [
+      skopeo
       kubectl
       k9s
+      kubernetes-helm
     ];
   };
 }

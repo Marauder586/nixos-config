@@ -11,6 +11,7 @@
     ../../modules/home/core.nix
     ../../modules/home/development.nix
     ../../modules/home/monitoring.nix
+    ../../modules/home/k8s.nix
   ];
 
   # username / homeDirectory are injected by flake.nix from $USER / $HOME

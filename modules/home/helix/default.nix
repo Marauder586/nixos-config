@@ -67,6 +67,7 @@
     tinymist
     ty
     typescript-language-server
+    typstyle
     vscode-langservers-extracted
     yaml-language-server
     yamlfmt
